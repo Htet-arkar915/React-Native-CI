@@ -30,7 +30,7 @@ jobs:
         run: npm install
 
       - name: setUp Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v2
 
       - name: Build Android Apk
         run: |
