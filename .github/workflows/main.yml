@@ -1,5 +1,5 @@
 name: Build Android App
-on: 
+on:
   push:
 jobs:
   build:
@@ -14,42 +14,42 @@ jobs:
 
       - name: Set Repository name as env variable
         run: echo "repo-name=$(echo '{{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
-        
+
       - name: SetUp Android JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
 
-      -name: Setup NodeJS
+      - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      -name: Install Dependencies
+      - name: Install Dependencies
         run: npm install
 
-      -name: setUp Android SDK
+      - name: setUp Android SDK
         uses: android-actions/setup-android@v3
 
-      -name: Build Android Apk
+      - name: Build Android Apk
         run: |
           cd android
           ./gradlew assembleRelease
 
-      -name: Build Android Bundle ABB
+      - name: Build Android Bundle ABB
         run: |
           cd android
-          ./gradlew bundleRelease         
+          ./gradlew bundleRelease
 
-      -name: Upload APK Release - ${{ env.repo-name }}
+      - name: Upload APK Release - ${{ env.repo-name }}
         uses: actions/upload-artifact@v3
-        with: 
-          name: ${{ env.repo-name }}-${{ env.today-date }} - APK release 
-          path: android/app/build/outputs/apk/release/ 
+        with:
+          name: ${{ env.repo-name }}-${{ env.today-date }} - APK release
+          path: android/app/build/outputs/apk/release/
 
-      -name: Upload AAB Release - ${{ env.repo-name }}
+      - name: Upload AAB Release - ${{ env.repo-name }}
         uses: actions/upload-artifact@v3
-        with: 
-          name: ${{ env.repo-name }}-${{ env.today-date }} - AAB release 
+        with:
+          name: ${{ env.repo-name }}-${{ env.today-date }} - AAB release
           path: android/app/build/outputs/bundle/release/
